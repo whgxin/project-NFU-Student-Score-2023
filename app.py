@@ -25,7 +25,7 @@ app.config['SESSION_TYPE'] = "test session"
 
 def get_db():
     db = getattr(g, '_database', None)
-    if db is None:
+    if db is None:    
         db = g._database = sql.connect(DATABASE)
     return dbp
 
