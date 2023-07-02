@@ -1,0 +1,98 @@
+{% extends "layout/back.html" %}
+{% block title %} 管理成績 {% endblock title %}
+{% block main %}
+<h1 class="mt-4">管理成績</h1>
+<table class="table" style="width: 1000px;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">學號</th>
+        <th scope="col">學期</th>
+        <th scope="col">科目</th>
+        <th scope="col">成績</th>
+        <th scope="col">備註</th>
+        <th scope="col">功能</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i in range(data2|length) %}
+        <tr>     
+        <th scope="row">{{ i+1 }}</th>
+        <td>{{data2[i].number}}</td>
+        <td>{{data2[i].date}}</td>
+        <td>{{data2[i].hours}}</td>
+        <td>{{data2[i].money}}</td>
+        <td>{{data2[i].note}}</td>
+        <td>
+          <div class="row">
+            <div class="col">
+              <a type="button" class="btn btn-outline-success mx-4" href="/edit2/{{ data2[i].id }}">修改</a>
+            </div>
+            <div class="col">
+              <form action="/deleteuser2/{{ data2[i].id }}" method="post">
+              <button class="btn btn-outline-danger " onclick="if(confirm('您確定要刪除嗎?')) return true;else return false">刪除</button>
+            </form></div>
+          </div>
+          
+          
+        </td>
+      </tr>
+      {% endfor %}
+        
+    </tbody>
+  </table>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn btn-info" data-bs-toggle="modal" data-bs-target="#create" style="right: 200px; position: absolute;">
+  新增
+</button>
+
+{% block modal %}      
+<!-- Modal -->
+<div class="modal fade modal-lg" id="create" tabindex="-1" aria-labelledby="createLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="createLabel">新增成績</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/createuser2" method="post" onsubmit="return Checksubmit2();">
+      <div class="modal-body">
+        <label class="form-label" for="number">學號</label>
+        <input id="number" class="form-control " name="number"/>
+
+        <label class="form-label" for="date">學期</label>
+        <input id="date" class="form-control " name="date"/>
+
+        <label class="form-label" for="hours">科目</label>
+        <input id="hours" class="form-control " name="hours"/>
+
+        <label class="form-label" for="money">成績</label>
+        <input id="money" class="form-control " name="money"/>
+
+        <!--label class="form-label" for="note">備註</label-->
+        <!-- input id="note" class="form-control " name="note"/ -->
+        
+      </div>
+
+      
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+        <button type="submit" class="btn btn-primary">新增</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+{% endblock modal %}
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      {% for message in messages %}
+      <script>Success('{{message}}')</script>
+      {% endfor %}
+  {% endif %}
+  {% endwith %}
+{% endblock main %}
